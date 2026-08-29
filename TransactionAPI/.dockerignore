@@ -1,0 +1,9 @@
+# Exclude build output and local-only files from the Docker build context
+**/bin/
+**/obj/
+**/Logs/
+**/.vs/
+**/.git/
+**/*.user
+**/Dockerfile*
+**/.dockerignore

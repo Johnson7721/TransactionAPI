@@ -1,0 +1,27 @@
+@TransactionAPI_HostAddress = http://localhost:5251
+
+POST {{TransactionAPI_HostAddress}}/api/submittrxmessage
+Content-Type: application/json
+
+{
+  "partnerkey": "FAKEGOOGLE",
+  "partnerrefno": "FG-00001",
+  "partnerpassword": "RkFLRVBBU1NXT1JEMTIzNA==",
+  "totalamount": 80001
+,
+  "items": [
+    {
+      "partneritemref": "i-00001",
+      "name": "Pen",
+      "qty": 1,
+      "unitprice": 80001
+
+    }
+   
+  ],
+  "timestamp": "2026-08-29T21:43:22.0000000",
+  "sig": "NWE1MmJmMjU0NWYzOWFkMjk4NTdjOGNiOGJmMWQxNDgwNmY3MjU2MTM0ZWM0ZGMwZjZhMmQxMWFkOTg2NmI5Ng=="
+}
+
+
+###
