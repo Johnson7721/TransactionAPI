@@ -14,13 +14,11 @@ namespace TransactionAPI.Helpers.Logger
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Logger));
 
-        // NOTE: For production, load the key/IV from configuration or a secret store - never hardcode.
-        private static readonly byte[] Key = Encoding.UTF8.GetBytes("0123456789ABCDEF0123456789ABCDEF"); // 32 bytes (AES-256)
-        private static readonly byte[] IV = Encoding.UTF8.GetBytes("0123456789ABCDEF");                   // 16 bytes
+        private static readonly byte[] Key = Encoding.UTF8.GetBytes("0123456789ABCDEF0123456789ABCDEF"); 
+        private static readonly byte[] IV = Encoding.UTF8.GetBytes("0123456789ABCDEF");                   
 
         public static void LogRequest(string url, TransactionRequest request)
         {
-            // Log a copy request body with the password encrypted
             var safeCopy = new
             {
                 partnerkey = request.PartnerKey,

@@ -1,13 +1,7 @@
 namespace TransactionAPI.Helpers.Validator
 {
-    /// <summary>
-    /// Contains validation constraint constants.
-    /// </summary>
     public static class ValidationConstants
     {
-        /// <summary>
-        /// String length constraints
-        /// </summary>
         public static class StringLength
         {
             public const int PartnerKey = 50;
@@ -17,9 +11,6 @@ namespace TransactionAPI.Helpers.Validator
             public const int Name = 100;
         }
 
-        /// <summary>
-        /// Numeric constraints
-        /// </summary>
         public static class Numeric
         {
             public const int MaxQty = 5;
@@ -27,9 +18,6 @@ namespace TransactionAPI.Helpers.Validator
             public const int MaxDiscountPercentage = 20;
         }
 
-        /// <summary>
-        /// Time-based constraints
-        /// </summary>
         public static class Time
         {
             public const int MaxTimestampDifferenceMinutes = 5;

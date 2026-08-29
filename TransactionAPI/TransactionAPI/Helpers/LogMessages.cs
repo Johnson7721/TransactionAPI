@@ -1,10 +1,6 @@
 namespace TransactionAPI.Helpers
 {
-    /// <summary>
-    /// Centralized log message templates.
-    /// Placeholders {0}, {1}... are replaced with real values via string.Format at runtime.
-    /// Date/time is added automatically by the log4net pattern layout.
-    /// </summary>
+ 
     public static class LogMessages
     {
         // Requests / responses ({0} = request URL, {1} = body)

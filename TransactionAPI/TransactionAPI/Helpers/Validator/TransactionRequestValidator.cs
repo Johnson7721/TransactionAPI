@@ -8,38 +8,31 @@ namespace TransactionAPI.Helpers.Validator
     {
         public TransactionRequestValidator()
         {
-            // PartnerKey validation
             RuleFor(x => x.PartnerKey)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.PartnerKeyRequired)
                 .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.PartnerKey)
                 .WithMessage(ValidationMessages.PartnerKeyTooLong);
 
-            // PartnerRefNo validation
             RuleFor(x => x.PartnerRefNo)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.PartnerRefNoRequired)
                 .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.PartnerRefNo)
                 .WithMessage(ValidationMessages.PartnerRefNoTooLong);
 
-            // PartnerPassword validation
             RuleFor(x => x.PartnerPassword)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.PartnerPasswordRequired)
                 .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.PartnerPassword)
                 .WithMessage(ValidationMessages.PartnerPasswordTooLong);
 
-            // TotalAmount validation
             RuleFor(x => x.TotalAmount)
                 .GreaterThan(0).WithMessage(ValidationMessages.TotalAmountPositive);
 
-            // Timestamp validation
             RuleFor(x => x.Timestamp)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.TimestampRequired)
                 .Must(BeWithinTimeWindow).WithMessage(x => GetTimestampErrorMessage(x.Timestamp));
 
-            // Sig validation
             RuleFor(x => x.Sig)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.SigRequired);
 
-            // Items validation
             RuleForEach(x => x.Items).ChildRules(item =>
             {
                 item.RuleFor(x => x.PartnerItemRef)
@@ -61,13 +54,11 @@ namespace TransactionAPI.Helpers.Validator
                     .GreaterThan(0).WithMessage(ValidationMessages.UnitPricePositive);
             });
 
-            // Items total validation
             RuleFor(x => x)
                 .Must(HaveValidItemTotal).WithMessage(ValidationMessages.InvalidTotalAmount)
                 .When(x => x.Items != null);
         }
 
-        //check time stamp and is within the time window of 5 minutes from the server time
         private bool BeWithinTimeWindow(string timestamp)
         {
             var trimmed = ValidatorText.TrimText(timestamp);

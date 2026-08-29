@@ -31,12 +31,6 @@ namespace TransactionAPI.Helpers.Validator
             }
         }
 
-        /// <summary>
-        /// Generates a signature for the given transaction parameters.
-        /// Signature format: timestamp(yyyyMMddHHmmss) + partnerkey + partnerrefno + totalamount + partnerpassword
-        /// Example: 20240815021122FAKEGOOGLEFG-000011000RkFLRVBBU1NXT1JEMTIzNA==
-        /// </summary>
-
         private static string GenerateSignature(
             string timestamp,
             string partnerKey,
@@ -44,7 +38,6 @@ namespace TransactionAPI.Helpers.Validator
             long totalAmount,
             string partnerPasswordBase64)
         {
-            // Convert ISO 8601 timestamp to UTC yyyyMMddHHmmss format
             if (!DateTimeOffset.TryParse(
                     timestamp?.Trim(),
                     CultureInfo.InvariantCulture,
@@ -56,8 +49,6 @@ namespace TransactionAPI.Helpers.Validator
 
             var formattedTimestamp = parsedTimestamp.ToUniversalTime().ToString("yyyyMMddHHmmss");
 
-            // Concatenate parameters in alphabetical order (except timestamp which comes first)
-            // timestamp + partnerkey + partnerrefno + totalamount + partnerpassword
             var payload = $"{formattedTimestamp}{partnerKey}{partnerRefNo}{totalAmount}{partnerPasswordBase64}";
 
             // SHA-256 hash (lowercase hexadecimal)
