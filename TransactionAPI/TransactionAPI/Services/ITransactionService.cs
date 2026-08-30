@@ -4,6 +4,6 @@ namespace TransactionAPI.Services
 {
     public interface ITransactionService
     {
-        Task<TransactionResponse> ProcessTransactionAsync(TransactionRequest request, CancellationToken cancellationToken= default);
+        TransactionResponse ProcessTransaction(TransactionRequest request);
     }
 }

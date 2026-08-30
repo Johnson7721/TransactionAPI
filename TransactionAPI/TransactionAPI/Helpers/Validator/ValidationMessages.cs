@@ -2,27 +2,34 @@
 {
     public static class ValidationMessages
     {
-        // Required field messages - shown when a mandatory field is missing, null, empty, or whitespace.
+        // Required field messages 
       
         public const string RequestBodyRequired = "Request body is required.";
 
-        public const string PartnerKeyRequired = "partnerkey cannot be null or empty.";
+        public const string PartnerKeyRequired = "partnerkey is required.";
 
-        public const string PartnerRefNoRequired = "partnerrefno cannot be null or empty.";
+        public const string PartnerRefNoRequired = "partnerrefno is required.";
 
-        public const string PartnerPasswordRequired = "partnerpassword cannot be null or empty.";
+        public const string PartnerPasswordRequired = "partnerpassword is required.";
+       
+        public const string TotalAmountRequired = "totalamount is required.";
 
-        public const string TimestampRequired = "timestamp cannot be null or empty.";
+        public const string TimestampRequired = "timestamp is required.";
 
-        public const string SigRequired = "sig cannot be null or empty.";
+        public const string SigRequired = "sig is required.";
 
-        public const string PartnerItemRefRequired = "partneritemref cannot be null or empty.";
+        public const string PartnerItemRefRequired = "partneritemref is required.";
 
-        public const string NameRequired = "name cannot be null or empty.";
+        public const string NameRequired = "name is required.";
 
-     
-        // Maximum length messages - shown when a field exceeds the limit
-        
+        public const string ItemQtyRequired = "item qty is required.";
+       
+        public const string ItemUnitPriceRequired = "item unitprice is required.";
+
+        public const string InvalidRequestFormat = "Invalid request format.";
+       
+        // Maximum length messages
+
         public static string PartnerKeyTooLong => $"partnerkey must not exceed {ValidationConstants.StringLength.PartnerKey} characters.";
 
         public static string PartnerRefNoTooLong => $"partnerrefno must not exceed {ValidationConstants.StringLength.PartnerRefNo} characters.";
@@ -34,7 +41,7 @@
         public static string NameTooLong => $"name must not exceed {ValidationConstants.StringLength.Name} characters.";
 
       
-        // Value / format rules - shown when a field is present but its value is out of range or in the wrong format.
+        // Value / format rules 
         public const string TotalAmountPositive = "totalamount must be a positive value.";
       
         public const string InvalidTotalAmount = "Invalid Total Amount.";
@@ -50,13 +57,13 @@
         public const string InvalidItemDetail = "Invalid item detail.";
 
        
-        // Security / authorization - generic on purpose 
+        // Security / authorization
         public const string AccessDenied = "Access Denied!";
       
         public const string Expired = "Expired.";
 
         
-        // General processing errors - unexpected server-side failures.
+        // unexpected server-side failures.
         public const string ProcessingError = "An error occurred while processing the transaction.";
     }
 }

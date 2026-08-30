@@ -16,7 +16,7 @@ namespace TransactionAPI.Helpers.Validator
                     request.Timestamp,
                     request.PartnerKey,
                     request.PartnerRefNo,
-                    request.TotalAmount,
+                    request.TotalAmount ?? 0,
                     request.PartnerPassword);
 
                 if (!string.Equals(request.Sig?.Trim(), expectedSignature, StringComparison.Ordinal))
@@ -41,7 +41,7 @@ namespace TransactionAPI.Helpers.Validator
             if (!DateTimeOffset.TryParse(
                     timestamp?.Trim(),
                     CultureInfo.InvariantCulture,
-                    DateTimeStyles.RoundtripKind,
+                    DateTimeStyles.AdjustToUniversal,
                     out var parsedTimestamp))
             {
                 throw new FormatException("Invalid timestamp format.");

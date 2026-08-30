@@ -18,16 +18,19 @@ namespace TransactionAPI.Controllers
 
         [HttpPost("submittrxmessage")]
         [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<TransactionResponse>> SubmitTransaction([FromBody] TransactionRequest request, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status400BadRequest)]
+        public ActionResult<TransactionResponse> SubmitTransaction([FromBody] TransactionRequest request)
         {
             var url = HttpContext.Request.Path.ToString();
 
-            Logger.LogRequest(url, request!);
+            Logger.LogRequest(url, request);
 
-            var response = await _transactionService.ProcessTransactionAsync(request!);
+            var response =  _transactionService.ProcessTransaction(request);
 
             Logger.LogResponse(url, response);
+
+            if (!response.IsSuccess)
+                return BadRequest(response);
 
             return Ok(response);
         }

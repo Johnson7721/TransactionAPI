@@ -4,25 +4,25 @@ namespace TransactionAPI.Models
 {
     public class TransactionRequest
     {
-        [JsonPropertyName("partnerkey"), JsonRequired]
+        [JsonPropertyName("partnerkey")]
         public string PartnerKey { get; set; } = string.Empty;
 
 
-        [JsonPropertyName("partnerrefno"), JsonRequired]
+        [JsonPropertyName("partnerrefno")]
         public string PartnerRefNo { get; set; } = string.Empty;
 
 
-        [JsonPropertyName("partnerpassword"), JsonRequired]
+        [JsonPropertyName("partnerpassword")]
         public string PartnerPassword { get; set; } = string.Empty;
 
-        [JsonPropertyName("totalamount"), JsonRequired]
-        public long TotalAmount { get; set; }
+        [JsonPropertyName("totalamount")]
+        public long? TotalAmount { get; set; }
 
        
-        [JsonPropertyName("timestamp"), JsonRequired]
+        [JsonPropertyName("timestamp")]
         public string Timestamp { get; set; } = string.Empty;
 
-        [JsonPropertyName("sig"), JsonRequired]
+        [JsonPropertyName("sig")]
         public string Sig { get; set; } = string.Empty;
 
         [JsonPropertyName("items")]
@@ -31,16 +31,16 @@ namespace TransactionAPI.Models
 
     public class ItemDetail
     {
-        [JsonPropertyName("partneritemref"), JsonRequired]
+        [JsonPropertyName("partneritemref")]
         public string PartnerItemRef { get; set; } = string.Empty;
 
-        [JsonPropertyName("name"), JsonRequired]
+        [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;
 
-        [JsonPropertyName("qty"), JsonRequired]
-        public int Qty { get; set; }
+        [JsonPropertyName("qty")]
+        public int? Qty { get; set; }
 
-        [JsonPropertyName("unitprice"), JsonRequired]
-        public long UnitPrice { get; set; }
+        [JsonPropertyName("unitprice")]
+        public long? UnitPrice { get; set; }
     }
 }

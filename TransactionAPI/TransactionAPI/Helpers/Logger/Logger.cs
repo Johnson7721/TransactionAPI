@@ -58,16 +58,17 @@ namespace TransactionAPI.Helpers.Logger
             return "ENC:" + Convert.ToBase64String(cipherBytes);
         }
 
-        public static string Decrypt(string encryptedValue)
-        {
-            if (!encryptedValue.StartsWith("ENC:", StringComparison.Ordinal))
-                return encryptedValue;
+        //if want to use decrypt function, uncomment the below code and use it.
+        //public static string Decrypt(string encryptedValue)
+        //{
+        //    if (!encryptedValue.StartsWith("ENC:", StringComparison.Ordinal))
+        //        return encryptedValue;
 
-            using var aes = Aes.Create();
-            aes.Key = Key;
-            var cipherBytes = Convert.FromBase64String(encryptedValue["ENC:".Length..]);
-            var plainBytes = aes.DecryptCbc(cipherBytes, IV);
-            return Encoding.UTF8.GetString(plainBytes);
-        }
+        //    using var aes = Aes.Create();
+        //    aes.Key = Key;
+        //    var cipherBytes = Convert.FromBase64String(encryptedValue["ENC:".Length..]);
+        //    var plainBytes = aes.DecryptCbc(cipherBytes, IV);
+        //    return Encoding.UTF8.GetString(plainBytes);
+        //}
     }
 }

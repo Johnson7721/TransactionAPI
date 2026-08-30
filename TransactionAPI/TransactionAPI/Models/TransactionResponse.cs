@@ -8,6 +8,9 @@ namespace TransactionAPI.Models
         [JsonPropertyName("result")]
         public int Result { get; set; }
 
+        [JsonIgnore]
+        public bool IsSuccess => Result == 1;
+
         [JsonPropertyName("totalamount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public long? TotalAmount { get; set; }
@@ -24,9 +27,6 @@ namespace TransactionAPI.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? ResultMessage { get; set; }
 
-        /// <summary>
-        /// Creates a success response
-        /// </summary>
         public static TransactionResponse Success(long totalAmount, long totalDiscount, long finalAmount)
         {
             return new TransactionResponse
@@ -38,9 +38,6 @@ namespace TransactionAPI.Models
             };
         }
 
-        /// <summary>
-        /// Creates a failure response
-        /// </summary>
         public static TransactionResponse Failure(string message)
         {
             return new TransactionResponse

@@ -9,94 +9,71 @@ namespace TransactionAPI.Helpers.Validator
         public TransactionRequestValidator()
         {
             RuleFor(x => x.PartnerKey)
+                .Cascade(CascadeMode.Stop)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.PartnerKeyRequired)
                 .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.PartnerKey)
                 .WithMessage(ValidationMessages.PartnerKeyTooLong);
 
             RuleFor(x => x.PartnerRefNo)
+                .Cascade(CascadeMode.Stop)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.PartnerRefNoRequired)
                 .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.PartnerRefNo)
                 .WithMessage(ValidationMessages.PartnerRefNoTooLong);
 
             RuleFor(x => x.PartnerPassword)
+                .Cascade(CascadeMode.Stop)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.PartnerPasswordRequired)
                 .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.PartnerPassword)
                 .WithMessage(ValidationMessages.PartnerPasswordTooLong);
 
             RuleFor(x => x.TotalAmount)
+                .Cascade(CascadeMode.Stop)
+                 .NotNull().WithMessage(ValidationMessages.TotalAmountRequired)
                 .GreaterThan(0).WithMessage(ValidationMessages.TotalAmountPositive);
 
             RuleFor(x => x.Timestamp)
+                 .Cascade(CascadeMode.Stop)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.TimestampRequired)
-                .Must(BeWithinTimeWindow).WithMessage(x => GetTimestampErrorMessage(x.Timestamp));
-
+                .Must(BeValidIso8601).WithMessage(ValidationMessages.TimestampInvalidFormat);
+           
             RuleFor(x => x.Sig)
+                .Cascade(CascadeMode.Stop)
                 .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.SigRequired);
 
             RuleForEach(x => x.Items).ChildRules(item =>
             {
                 item.RuleFor(x => x.PartnerItemRef)
+                    .Cascade(CascadeMode.Stop)
                     .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.PartnerItemRefRequired)
                     .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.PartnerItemRef)
                     .WithMessage(ValidationMessages.PartnerItemRefTooLong);
 
                 item.RuleFor(x => x.Name)
+                    .Cascade(CascadeMode.Stop)
                     .Must(ValidatorText.HasValue).WithMessage(ValidationMessages.NameRequired)
                     .Must(x => ValidatorText.TrimText(x).Length <= ValidationConstants.StringLength.Name)
                     .WithMessage(ValidationMessages.NameTooLong);
 
                 item.RuleFor(x => x.Qty)
+                .Cascade(CascadeMode.Stop)
+                    .NotNull().WithMessage(ValidationMessages.ItemQtyRequired)
                     .GreaterThan(0).WithMessage(ValidationMessages.QtyPositive)
                     .LessThanOrEqualTo(ValidationConstants.Numeric.MaxQty)
                     .WithMessage(ValidationMessages.QtyMaxExceeded);
 
                 item.RuleFor(x => x.UnitPrice)
+                .Cascade(CascadeMode.Stop)
+                    .NotNull().WithMessage(ValidationMessages.ItemUnitPriceRequired)
                     .GreaterThan(0).WithMessage(ValidationMessages.UnitPricePositive);
             });
-
-            RuleFor(x => x)
-                .Must(HaveValidItemTotal).WithMessage(ValidationMessages.InvalidTotalAmount)
-                .When(x => x.Items != null);
         }
-
-        private bool BeWithinTimeWindow(string timestamp)
+        private bool BeValidIso8601(string timestamp)
         {
-            var trimmed = ValidatorText.TrimText(timestamp);
-            if (!DateTimeOffset.TryParse(
-                    trimmed,
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.RoundtripKind,
-                    out var requestTime))
-            {
-                return false;
-            }
-
-            var serverTime = DateTimeOffset.UtcNow;
-            var difference = Math.Abs((serverTime - requestTime).TotalMinutes);
-            return difference <= ValidationConstants.Time.MaxTimestampDifferenceMinutes;
-        }
-
-        private string GetTimestampErrorMessage(string timestamp)
-        {
-            var trimmed = ValidatorText.TrimText(timestamp);
-            if (!DateTimeOffset.TryParse(
-                    trimmed,
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.RoundtripKind,
-                    out _))
-            {
-                return ValidationMessages.TimestampInvalidFormat;
-            }
-
-            return ValidationMessages.Expired;
-        }
-
-        private bool HaveValidItemTotal(TransactionRequest request)
-        {
-            if (request.Items == null) return true;
-
-            var itemTotal = request.Items.Sum(i => i.Qty * i.UnitPrice);
-            return itemTotal == request.TotalAmount;
+            return DateTimeOffset.TryParse(
+                ValidatorText.TrimText(timestamp),
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AdjustToUniversal,
+                out _);
         }
     }
 }
